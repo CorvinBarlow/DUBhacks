@@ -22,10 +22,10 @@ def get_all_people():
     return results
 
 # Function to insert an event into the "events" table
-def insert_event(event_name, event_date, location):
+def insert_event(event_name, event_date, location, hashtags):
     conn = sqlite3.connect('xpeerience.sqlite')
     c = conn.cursor()
-    c.execute("INSERT INTO events (event_name, event_date, location) VALUES (?, ?, ?)",
+    c.execute("INSERT INTO events (event_name, event_date, location, hashtags) VALUES (?, ?, ?)",
               (event_name, event_date, location))
     conn.commit()
     conn.close()
@@ -115,7 +115,8 @@ def create_events_table_if_not_exists():
                 id INTEGER PRIMARY KEY,
                 event_name TEXT,
                 event_date DATE,
-                location TEXT
+                location TEXT,
+                hashtags TEXT
             )
         ''')
         conn.commit()
