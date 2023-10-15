@@ -1,0 +1,26 @@
+.email-container {
+    align-items: center;
+    padding-bottom: 25px;
+    font-size: 20px;
+}
+
+.email-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.email-input {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    paddin-left: 20px;
+    font-size: 18px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.email-input:focus {
+    border-color: #007BFF;
+}

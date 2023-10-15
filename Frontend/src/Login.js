@@ -1,10 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Alert from "@cloudscape-design/components/alert";
+import './Login.css';
+
+const Al = () => {
+    return (
+        <Alert
+            statusIconAriaLabel="Error"
+            type="error"
+            header="Unable to continue"
+            dismissible={true}
+        >
+            This service requires a .edu email address.
+        </Alert>
+    );
+}
 
 function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
+    const [noEmailError, setNoEmailError] = useState(false);
 
     const handleEmailChange = (event) => {
         if (/\s/.test(event.target.value)) {
@@ -14,6 +30,10 @@ function Login() {
     }
 
     const handleSubmit = () => {
+        if (!email || !email.includes('edu')) {
+            setNoEmailError(true);
+            return;
+        }
         navigate("/questionnaire", { state: { email: email } });
     }
 
@@ -24,21 +44,24 @@ function Login() {
     }
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <div className="email" style={{ paddingBottom: '50px' }}>
-                    <label>Email address: </label>
-                    <input
-                        className="email"
-                        type="email"
-                        placeholder="name@example.com"
-                        value={email}
-                        onChange={handleEmailChange}
-                        onKeyDown={handleKeyDown}
-                    />
-                </div>
-                <button onClick={handleSubmit}>Submit!</button>
-            </header>
+        <div>
+            {noEmailError && <Al />}
+            <div className="App">
+                <header className="App-header" style={{paddingTop: '150px'}}>
+                    <div className="email-container">
+                        <label className="email-label">Email address: </label>
+                        <input
+                            className="email-input"
+                            type="email"
+                            placeholder="name@example.com"
+                            value={email}
+                            onChange={handleEmailChange}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
+                    <button onClick={handleSubmit}>Submit!</button>
+                </header>
+            </div>
         </div>
     );
 }
