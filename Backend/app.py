@@ -1,5 +1,6 @@
 import sqlite3
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -25,19 +26,10 @@ def get_all_people():
 def insert_event(event_name, event_date, location, hashtags):
     conn = sqlite3.connect('xpeerience.sqlite')
     c = conn.cursor()
-    c.execute("INSERT INTO events (event_name, event_date, location, hashtags) VALUES (?, ?, ?)",
-              (event_name, event_date, location))
+    c.execute("INSERT INTO events (event_name, event_date, location, hashtags) VALUES (?, ?, ?, ?)",
+              (event_name, event_date, location, hashtags))
     conn.commit()
     conn.close()
-
-# Function searches "events" table for all events with the searched hashtag.
-def recommendation(search):
-    conn = sqlite3.connect('xpeerience.sqlite')
-    c = conn.cursor()
-    c.execute(f"SELECT event_name FROM events WHERE hashtags LIKE '{search}'")
-    results = c.fetchall()
-    conn.close()
-    return results
 
 # Function to retrieve all events from the "events" table
 def get_all_events():
@@ -46,6 +38,15 @@ def get_all_events():
     c.execute("SELECT * FROM events")
     results = c.fetchall()
     conn.close()
+    return results
+
+def get_some_events(start_date, end_date):
+    conn = sqlite3.connect('xpeerience.sqlite')
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM events WHERE events.event_date > '{start_date}' AND events.event_date < '{end_date}'")
+    results = c.fetchall()
+    conn.close()
+    print(results)
     return results
 
 @app.route("/people", methods=["POST"])
@@ -69,18 +70,27 @@ def list_people():
 @app.route("/events", methods=["POST"])
 def add_event():
     data = request.json
+
+    print(data)
     if data:
         event_name = data.get('event_name')
         event_date = data.get('event_date')
         location = data.get('location')
-        insert_event(event_name, event_date, location)
+        hashtags = data.get('hashtags')
+        insert_event(event_name, event_date, location, hashtags)
         return jsonify({'message': 'Event added successfully'})
     else:
         return jsonify({'error': 'Invalid data provided'}), 400
 
-@app.route("/events", methods=["GET"])
+@app.route("/list_events", methods=["GET"])
 def list_events():
-    events_data = get_all_events()
+    startDate = request.args.get('startDate')
+    endDate = request.args.get('endDate')
+    events_data = None
+    if not startDate or not endDate:
+        events_data = get_all_events()
+    else:
+        events_data = get_some_events(startDate, endDate)
     return jsonify({'events': events_data})
 
 # Check if the "people" table exists and create it if it doesn't
@@ -149,9 +159,11 @@ def get_from_db():
     c.execute("SELECT * FROM events")
     events_results = c.fetchall()
     conn.close()
+    print(f"events_results: {events_results}")
 
     return jsonify({'people': people_results, 'events': events_results})
 
+CORS(app)
 
 if __name__ == '__main__':
     app.debug = True

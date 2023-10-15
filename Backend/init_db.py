@@ -51,7 +51,15 @@ def insert_dummy_events():
     events = [
         ('Rock Concert', '2023-10-20', 'Stadium', '#rock #concert'),
         ('Tech Conference', '2023-11-05', 'Convention Center', '#tech #conference'),
-        # Add more dummy events as needed
+        ('Art Exhibition', '2023-12-15', 'Art Gallery', '#art #exhibition'),
+        ('Food Festival', '2023-12-28', 'City Park', '#food #festival'),
+        ('Comedy Show', '2024-01-10', 'Comedy Club', '#comedy #show'),
+        ('Science Fair', '2024-02-20', 'Science Museum', '#science #fair'),
+        ('Movie Premiere', '2024-03-05', 'Cinema', '#movie #premiere'),
+        ('Music Festival', '2024-04-18', 'Outdoor Venue', '#music #festival'),
+        ('Fashion Show', '2024-05-02', 'Fashion Center', '#fashion #show'),
+        ('Sports Championship', '2024-06-10', 'Sports Arena', '#sports #championship'),
+        ('Book Launch', '2024-07-25', 'Bookstore', '#book #launch'),
     ]
 
     conn = sqlite3.connect('xpeerience.sqlite')
