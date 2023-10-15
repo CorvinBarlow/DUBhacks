@@ -48,6 +48,7 @@ function Login() {
             {noEmailError && <Al />}
             <div className="App">
                 <header className="App-header" style={{paddingTop: '150px'}}>
+                    <h1>Xpeerience</h1>
                     <div className="email-container">
                         <label className="email-label">Email address: </label>
                         <input
