@@ -30,6 +30,15 @@ def insert_event(event_name, event_date, location, hashtags):
     conn.commit()
     conn.close()
 
+# Function searches "events" table for all events with the searched hashtag.
+def recommendation(search):
+    conn = sqlite3.connect('xpeerience.sqlite')
+    c = conn.cursor()
+    c.execute(f"SELECT event_name FROM events WHERE hashtags LIKE '{search}'")
+    results = c.fetchall()
+    conn.close()
+    return results
+
 # Function to retrieve all events from the "events" table
 def get_all_events():
     conn = sqlite3.connect('xpeerience.sqlite')
