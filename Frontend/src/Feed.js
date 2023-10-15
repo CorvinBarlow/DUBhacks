@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import NavBar from "./NavBar";
 import './Feed.css';
 
-const API_ENDPOINT = "http://127.0.0.1:5000/list_events";
+const API_ENDPOINT = "http://127.0.0.1:8000/list_events";
 
 const Feed = () => {
     const [events, setEvents] = useState([]);
