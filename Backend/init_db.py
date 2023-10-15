@@ -79,6 +79,7 @@ def drop_tables():
 
 
 if __name__ == '__main__':
+    drop_tables()
     create_people_table()
     create_events_table()
     insert_dummy_people()

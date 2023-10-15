@@ -53,7 +53,7 @@ function CreateEvent() {
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:5000/events", {
+            const response = await fetch("http://127.0.0.1:8000/events", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
